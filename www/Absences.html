@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
+        <title>Absences</title>
+    </head>
+    <body>
+	
+	
+	
+	
+	
+	
+	
+	
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/Chart.js"></script>
+ <script type="text/javascript" src="js/jquery.easing.js"></script>
+ <script type="text/javascript" src="js/jquery.ulslide.js"></script>
+ <!----Calender -------->
+  <link rel="stylesheet" href="css/clndr.css" type="text/css" />
+  <script src="js/underscore-min.js"></script>
+  <script src= "js/moment-2.2.1.js"></script>
+  <script src="js/clndr.js"></script>
+  <script src="js/site.js"></script>
+  <!----End Calender -------->
+  <link type="text/css" href="css/mmenu.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script>
+<script type="text/javascript">
+		$(function() {
+			$('nav#menu').mmenu();
+		});
+	</script>
+	<!--style-->
+	<style>
+table {
+    border-collapse: collapse;
+    width: 100%;
+	background-color: #f2f2f2;
+}
+
+td {
+    text-align: left;
+    padding: 8px;
+}
+th{
+background-color: #9aebfd;
+
+}
+.myButton {
+	-moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	-webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
+	background:-moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-o-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-ms-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2',GradientType=0);
+	background-color:#33bdef;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #057fd0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	padding:6px 24px;
+	text-decoration:none;
+	text-shadow:0px -1px 0px #5b6178;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #019ad2), color-stop(1, #33bdef));
+	background:-moz-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-o-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-ms-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#019ad2', endColorstr='#33bdef',GradientType=0);
+	background-color:#019ad2;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+
+
+h1 {
+    
+    margin-top: 0;
+    margin-bottom: 0;
+    color: #1e1e1e;
+    background-color: #e7e5e4;
+    font-family: 'Gabriela', serif;
+    font-size: 60px;
+    letter-spacing: .10em;
+    text-align: center;
+}
+</style>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+	
+		 <div class="wrap">	 
+	      <div class="header">
+	      	  <div class="header_top">
+	      	     	<div class="menu-ico"><a href="#menu"></a></div>
+					  <div class="profile_details">
+				    		   <div id="loginContainer">
+				                  <a id="loginButton" class=""><span>Me</span></a>   
+				                    <div id="loginBox">                
+				                      <form id="loginForm">
+				                        <fieldset id="body">
+				                            <div class="user-info">
+							        			<h4>Bonjour,<a href="#"> Username</a></h4>
+							        			<ul>
+							        				<li class="profile active"><a href="#">Profile </a></li>
+							        				<li class="logout"><a href="#"> Logout</a></li>
+							        				<div class="clear"></div>		
+							        			</ul>
+							        		</div>			                            
+				                        </fieldset>
+				                    </form>
+				                </div>
+				            </div>
+				             <div class="profile_img">	
+				             	<a href=""><img src="images/profile_img40x40.jpg" alt="" />	</a>
+				             </div>		
+				             <div class="clear"></div>		  	
+					    </div>	
+		 		      <div class="clear"></div>				 
+				   </div>
+			</div>	  					     
+	   </div>	  				 
+	  <div class="main">  
+	    <div class="wrap">  		 
+	       <div class="column_left">	
+	       	  					
+						
+			         
+		    </div>
+		             
+		 </div>
+		            	
+	  </div> 
+	  		
+            <div class="column_middle">
+				<h1 style="margin-left:20px;margin-right:20px;"> Les autorisations d'absence</h1>
+				
+				</br></br><details close >
+     					 <summary style="color: white; margin-left:50px;"><strong>Formulaire de demande d'autorisation d'absence:</strong></summary>
+						 		<form style="margin-left:30%;">
+						 		
+						 		<input type="hidden" name="mat" value="">
+						 		<input type="hidden" name="action" value="">
+						 		
+						 		</br><label style="color: white; margin-left:30px;">Date demandee:</label></br>
+						 		<input type="date" name="dd" style="margin-left:50px;"></br>
+						 		<label style="color: white; margin-left:30px;">Motif:</label> </br>
+						 		<textarea  name="motif" style="margin-left:50px;"></textarea></br></br>
+						 		<input type="submit" class="myButton" value="Enregistrer">
+							</form>
+				</details>
+				</br>
+				</br>
+				
+			
+		            <table style="margin-left:20px;margin-right:20px;">
+						<tr>
+							<th>Code Autorisation</th>
+							<th>Motif</th>
+							<th>Date</th>
+							<th>Interimaire </th>
+							
+							
+							
+						</tr>
+						<tr>
+						<td>5</td>
+						<td>Affaire personnelle</td>
+						<td>02/02/2016</td>
+						<td>M.Hamid zahir</td>
+						
+						
+						</tr>
+						
+					</table>					
+		         
+		          	 <h1 style="margin-left:20px;margin-right:20px; margin-top:40px;">Situation d'absence Pour l'annee 2016 </h1>
+					 <div class="graph" >
+		             	<canvas id="line-chart" style="width:100%;margin-left:40%;"> </canvas>
+		             	<script>
+							var lineChartData = {
+								labels : ["Mars","Avril","Mai"],
+								datasets : [									
+									{
+										fillColor : "rgba(255, 255, 255, 0)",
+										strokeColor : "#FFF",
+										pointColor : "#11a8ab",
+										pointStrokeColor : "#FFF",
+										data : [5,19,10]
+									}
+								]
+								
+							}
+					
+						var myLine = new Chart(document.getElementById("line-chart").getContext("2d")).Line(lineChartData);
+						
+						</script>
+						</div>
+		       
+    	    </div>
+    	    
+            <div class="column_right">
+            	
+			 
+             </div>
+    	<div class="clear"></div>
+ 	 </div>
+   </div>   
+   					<nav id="menu">
+							<ul>
+								<li><a href="index.html"><i></i> Accueil</a></li>
+								<li><a href="Formations.html"><span><i></i> Formations</span><label class="digits active">5</label><div class="clear"></div></a></li>
+						  		<li><a href="Conges.html"><span> <i></i> Demandes de conge</span><label class="digits">3</label><div class="clear"></div></a></li>
+						  		<li><a href="Absences.html"><span> <i></i> Demande d'autorisation d absence</span><label class="digits">5</label><div class="clear"></div></a></li>
+						  		<li><a href="Avances.html"><i></i>Demandes d'avances</a></li>
+						  		<li><a href="Reclamations.html"><span><i></i>  Reclamations</span></a></li>		
+								<li><a href="#"><i></i>Settings</a></li>																
+							</ul>
+					 </nav>
+		<div class="social_networks">
+				      		
+				      			<a href="#" class="facebook"><i><img src="images/facebook_icon.png" alt="" /></i></a>
+				      			<a href="#" class="twitter"><i><img src="images/tweets.png" alt="" /></i></a>
+				      			<a href="#" class="googleplus"><i><img src="images/google+.png" alt="" /></i></a>
+				    	
+		          </div>
+		 <div class="copy-right">
+				<p>© 2016 Designed by Saadia Nemmaoui  </p>
+	 	 </div>   
+		
+		
+		
+		
+		
+		
+		
+    </body>
+</html>
