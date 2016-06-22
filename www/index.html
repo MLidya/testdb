@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <!--
+    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
+
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -19,16 +21,13 @@
 -->
 <html>
     <head>
-        <!--
-        Customize this policy to fit your own app's needs. For more guidance, see:
-            https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
-        Some notes:
-            * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-            * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-            * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-                * Enable inline JS: add 'unsafe-inline' to default-src
-        -->
+        <meta charset="utf-8" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="msapplication-tap-highlight" content="no" />
 		
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        <link rel="stylesheet" type="text/css" href="css/index.css" />
 		<script>
 		
 	
@@ -36,12 +35,31 @@ document.addEventListener("deviceready", onDeviceReady, false);
  
 function onDeviceReady() {
 	alert('debut');
+var onSuccess = function(position) {
+        alert('Latitude: '          + position.coords.latitude          + '\n' +
+              'Longitude: '         + position.coords.longitude         + '\n' +
+              'Altitude: '          + position.coords.altitude          + '\n' +
+              'Accuracy: '          + position.coords.accuracy          + '\n' +
+              'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+              'Heading: '           + position.coords.heading           + '\n' +
+              'Speed: '             + position.coords.speed             + '\n' +
+              'Timestamp: '         + position.timestamp                + '\n');
+    };
 
+    // onError Callback receives a PositionError object
+    //
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+
+    navigator.geolocation.getCurrentPosition(onSuccess, onError);
+	
 	var db = window.openDatabase("databasename", "4", "Cordova Demo",'');
       db.transaction(function(tx) {
          tx.executeSql('CREATE TABLE IF NOT EXISTS SimpsonFamily (id integer primary key, nom text)');
       });
-	  
+	    
 	alert('bd et table created');
 	
 	db.transaction(function(tx) {
@@ -66,14 +84,14 @@ function onDeviceReady() {
 
 		var len = results.rows.length, i;
 		//$(".rowCount").append(len);
-		document.write("<table>");
+		//document.write("<table>");
 		for (i = 0; i < len; i++){
 		//$("#TableData").append("<tr><td>"+results.rows.item(i).id+"</td><td>"+results.rows.item(i).nom+"</td></tr>");
 		
-		document.write("<tr><td>"+results.rows.item(i).id+"</td><td>"+results.rows.item(i).nom+"</td></tr>");
+		//document.write("<tr><td>"+results.rows.item(i).id+"</td><td>"+results.rows.item(i).nom+"</td></tr>");
 		
 }
-document.write("</table>");
+//document.write("</table>");
 }, null);
    
    
@@ -85,26 +103,379 @@ document.write("</table>");
 		
 		
 		</script>
+		<script src="js/jquery.js"></script>
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+<script>
+	x = navigator.geolocation;
+	x.getCurrentPosition(success, failure);
+	
+	function success(position){
+		var mylat = position.coords.latitude;
+		var mylong = position.coords.longitude;
 		
+		//var mylat = 52.7162614;
+		//var mylong = -2.7307183999999998;
 		
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
-        <meta name="format-detection" content="telephone=no">
-        <meta name="msapplication-tap-highlight" content="no">
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
-        <link rel="stylesheet" type="text/css" href="css/index.css">
-        <title>Hello World</title>
+		$('#lat').html(mylat);
+		$('#long').html(mylong);
+		
+		//googleapi ready lattitude and long string
+		
+		var coords = new google.maps.LatLng(mylat,mylong);
+		
+		//Setting up our googlmap
+		
+		var mapOptions={
+			zoom: 16,
+			center: coords,
+			mapTypeID: google.maps.MapTypeId.ROADMAP
+		}
+		// creating map
+		var map= new google.maps.Map(document.getElementById("map"), mapOptions);
+		
+	}
+	
+	
+	function failure(){
+	$('#lat').html("<p> it didn't work, coord not availible!</p>");
+	}
+
+
+</script>
+<style>
+	#map{
+		width: 400px;
+		height: 400px;
+	}
+
+
+</style>
+<script>
+document.addEventListener("deviceready", onDeviceReady, false);
+function onDeviceReady() {
+      var db = window.sqlitePlugin.openDatabase({name: "Databases"});
+      db.transaction(function(tx) {
+         tx.executeSql('CREATE TABLE IF NOT EXISTS SimpsonFamily (id integer primary key, nom text)');
+      });
+	  db.transaction(function(tx) {
+         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (1,'Homer')");
+         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (2,'Marge')");
+         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (3,'Bart')");
+         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (4,'Lisa')");
+         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (5,'Maggie')");
+      });
+	  db.transaction(function(tx) {
+     tx.executeSql("SELECT * FROM SimpsonFamily", [], function(tx, res) {
+       alert("Nombre d'enregistrements  : " + res.rows.length);
+    });
+   
+}
+
+</script>
+        <title>Situation Personnel</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Apache Cordova</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-			<div class="rowCount"></div>
-			<div> <table id="TableData"></table></div>
-        </div>
+	
+	
+	
+	
+	
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<script type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="js/Chart.js"></script>
+ <script type="text/javascript" src="js/jquery.easing.js"></script>
+ <script type="text/javascript" src="js/jquery.ulslide.js"></script>
+ <!----Calender -------->
+  <link rel="stylesheet" href="css/clndr.css" type="text/css" />
+  <script src="js/underscore-min.js"></script>
+  <script src= "js/moment-2.2.1.js"></script>
+  <script src="js/clndr.js"></script>
+  <script src="js/site.js"></script>
+  <!----End Calender -------->
+  <link type="text/css" href="css/mmenu.css" rel="stylesheet" media="all" />
+<script type="text/javascript" src="js/jquery.mmenu.min.js"></script>
+<script type="text/javascript">
+		$(function() {
+			$('nav#menu').mmenu();
+		});
+	</script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript">
+            app.initialize();
+        </script>
+	
+		 <div class="wrap">	 
+	      <div class="header">
+	      	  <div class="header_top">
+	      	     	<div class="menu-ico"><a href="#menu"></a></div>
+					  <div class="profile_details">
+				    		   <div id="loginContainer">
+				                  <a id="loginButton" class=""><span>Me</span></a>   
+				                    <div id="loginBox">                
+				                      <form id="loginForm">
+				                        <fieldset id="body">
+				                            <div class="user-info">
+							        			<h4>Bonjour,<a href="#"> Username</a></h4>
+							        			<ul>
+							        				<li class="profile active"><a href="#">Profile </a></li>
+							        				<li class="logout"><a href="#"> Logout</a></li>
+							        				<div class="clear"></div>		
+							        			</ul>
+							        		</div>			                            
+				                        </fieldset>
+				                    </form>
+				                </div>
+				            </div>
+				             <div class="profile_img">	
+				             	<a href=""><img src="images/profile_img40x40.jpg" alt="" />	</a>
+				             </div>		
+				             <div class="clear"></div>		  	
+					    </div>	
+		 		      <div class="clear"></div>				 
+				   </div>
+			</div>	  					     
+	   </div>	  				 
+	  <div class="main">  
+	    <div class="wrap">  		 
+	       <div class="column_left">	
+	       	  
+	    		 <div class="chart">
+		               <h3>Situation Personnel</h3>
+		                  <div class="diagram">
+		                  <canvas id="canvas" height="220" width="220"> </canvas>
+		                  <h4><span>Mai</span><br />2016</h4>   
+		                 </div>
+		               <!----		              
+						<span><img src="images/chart.png" alt="" /></span>
+						----->					
+						<div class="chart_list">
+			           	  <ul>
+			           	  	<li><a href="#" class="red">absence justife<p class="percentage">9<em>%</em></p></a></li>
+			           	  	<li><a href="#" class="purple">jours_Conge<p class="percentage">20<em>%</em></p></a></li>
+			           	  	<li><a href="#" class="yellow">absence non justifie<p class="percentage">7<em>%</em></p></a></li>
+							<li><a href="#" class="blue">jours travaillés<p class="percentage">64<em>%</em></p></a></li>
+
+			           	  	<div class="clear"></div>	
+			           	  </ul>
+			           </div>
+			           <script>
+						var doughnutData = [
+								{
+									value: 9,
+									color:"#E64C65"
+								},
+								{
+									value : 20,
+									color : "#11A8AB"
+								},							
+								{
+									value : 64,
+									color : "#4FC4F6"
+								},
+								{
+									value : 7,
+									color : "#FCB150"
+								},		
+								
+							];				
+							var myDoughnut = new Chart(document.getElementById("canvas").getContext("2d")).Doughnut(doughnutData);					
+					</script>
+		          </div>
+		             
+		             </div>
+		            	
+	  		</div> 
+	  		
+            <div class="column_middle">
+              <div class="column_middle_grid1">
+		         <div class="profile_picture">
+		        	<a href=""><img src="images/profile_img150x150.jpg" alt="" />	</a>		         
+		            <div class="profile_picture_name">
+		            	<h2>Saadia Nemmaoui</h2>
+		            	<p>Ingenieur en informatique </p>
+		            </div>
+		             <span><a href="#"> <img src="images/follow_user.png" alt="" /> </a></span>
+		          </div>
+		           <div class="articles_list">
+		           	  <ul>
+		           	  	<li><a href="#" class="red">23 primes</a></li>
+		           	  	<li><a href="#" class="purple"> 40 Formations</a></li>
+		           	  	<li><a href="#" class="yellow">  0 reclamations</a></li>
+		           	  	<div class="clear"></div>	
+		           	  </ul>
+		           </div>
+		       </div>
+		         <div class="weather">				 
+		               <h3><i><img src="images/location.png" alt="" /> </i> Souk Sebt ouled nemma</h3>
+		              <div class="today_temp">
+		                <div class="temp">
+							<figure>Fri 20/05<span>24<em>o</em></span></figure>
+						</div>
+						<img src="images/sun.png" alt="" />
+					</div>
+						<div class="temp_list">
+				      			<ul>
+						  		    <li><a href="#"><span class="day_name">Sat</span>&nbsp; 21/05
+						  			<label class="digits">25<em>o</em> <i><img src="images/sun_icon1.png" alt="" /></i></label><div class="clear"></div></a></li>
+						  			<li class="active"><a href="#"><span class="day_name">Sun</span>&nbsp; 22/05 
+						  			<label class="digits">22<em>o</em> <i><img src="images/clouds.png" alt="" /></i></label><div class="clear"></div></a></li>
+						  			<li><a href="#"><span class="day_name">Mon</span>&nbsp; 23/05
+						  			<label class="digits">24<em>o</em> <i><img src="images/clouds.png" alt="" /></i></label><div class="clear"></div></a></li>
+						  			<li><a href="#"><span class="day_name">Tue</span>&nbsp; 24/05
+						  			<label class="digits">26<em>o</em> <i><img src="images/sun_icon1.png" alt="" /></i></label><div class="clear"></div></a></li>
+						  			<li><a href="#"><span class="day_name">Wed</span>&nbsp; 25/05 
+						  			<label class="digits">27<em>o</em> <i><img src="images/sun_icon2.png" alt="" /></i></label><div class="clear"></div></a></li>
+						  			<li><a href="#"><span class="day_name">Thu</span>&nbsp; 26/05
+						  			<label class="digits">29<em>o</em> <i><img src="images/sun_icon2.png" alt="" /></i></label><div class="clear"></div></a></li>
+				    		</ul>
+				      </div>
+		          </div>	           
+		         <div class="tweets">
+		               <h3> Dernnieres Formations</h3>		              
+						<div class="tweets_list">
+				      		<ul>
+						  		<li> Api_culture Formation
+						  			<span>10 jours</span><span>a partir de 21/07/2016</span></li>
+						  	   <li> AGIRH formation 
+						  			<span>15 jours</span><span>a partir de 01/06/2016</span></li>
+				    		</ul>
+				      </div>
+		          </div>
+		          	           
+		       
+    	    </div>
+    	    
+            <div class="column_right">
+            	
+			
+				   <div class="column_right_grid downloading_uploading">
+                      <ul>
+					      <li>                              
+                            <div class="progress">
+                              <div class="progress-bar" style="width:81%"> </div>
+                            </div>
+                            <div class="clearfix">
+                                <p class="downloading"> <i></i> prochaine prime</p>
+                                <p class="percentage">81<em>%</em></p>
+                                <div class="clear"></div>
+                            </div>
+                           </li>
+                           <li>                              
+                            <div class="progress">
+                              <div class="progress-bar uploading" style="width:43%"> </div>
+                            </div>
+                            <div class="clearfix">
+                                <p class="downloading"><i></i> prochaine evaluation</p>
+                                <p class="percentage">43<em>%</em></p>
+                                <div class="clear"></div>
+                            </div>
+                           </li>
+                        </ul>
+				   </div>
+				   <div class="column_right_grid date_events">
+				     	  <h3><a href="#" id="slide_prev"><img src="images/arrow-left.png" alt="" /></a> Wednesday <a href="#" id="slide_next"><img src="images/arrow-right.png" alt="" /></a></h3>
+				     	 		<ul id="slide" class="event_dates">					            
+						            <li>26</li>
+						            <li>25</li>
+						            <li>24</li>
+						            <li>23</li>
+						            <li>22</li>
+						            <li>21</li>
+						            <li>20</li>
+						            <li>19</li>
+						            <li>18</li>
+						            <li>17</li>
+						            <li>16</li>
+						            <li>15</li>
+						            <li>14</li>
+						            <li>13</li>
+						            <li>12</li>
+						            <li>11</li>
+						            <li>10</li>
+						            <li>9</li>
+						            <li>8</li>
+						            <li>7</li>
+						            <li>6</li>
+						            <li>5</li>
+						            <li>4</li>
+						            <li>3</li>
+						            <li>2</li>
+						            <li>1</li>
+						            <li>31</li>
+						            <li>30</li>
+						            <li>29</li>
+						            <li>28</li>
+						            <li>27</li>
+						        </ul>
+						         <div class="button"><a href="#">Add Event</a></div>											 				
+				           <script type="text/javascript">
+				            $(function() {						
+				                $('#slide').ulslide({
+				                   
+									effect: {
+										type: 'carousel', // slide or fade
+				                        axis: 'x',        // x, y
+										showCount:1
+									},
+				                    nextButton: '#slide_next',
+				                    prevButton: '#slide_prev',
+				                    duration: 800,
+				                    /*autoslide: 2000,*/
+									easing: 'easeOutBounce'
+				                });
+				            });
+				        </script>
+				    </div>
+				   <div class="column_right_grid calender">
+                      <div class="cal1"> </div>
+				   </div>
+             </div>
+    	<div class="clear"></div>
+ 	 </div>
+   </div>   
+   					<nav id="menu">
+							<ul>
+								<li><a href="index.html"><i></i> Accueil</a></li>
+								<li><a href="formation.php"><span><i></i> Formations</span><label class="digits active">5</label><div class="clear"></div></a></li>
+						  		<li><a href="Conges.html"><span> <i></i> Demandes de conge</span><label class="digits">3</label><div class="clear"></div></a></li>
+						  		<li><a href="Absences.html"><span> <i></i> Demande d'autorisation d absence</span><label class="digits">5</label><div class="clear"></div></a></li>
+						  		<li><a href="Avances.html"><i></i>Demandes d'avances</a></li>
+						  		<li><a href="Reclamations.html"><span><i></i>  Reclamations</span></a></li>		
+								<li><a href="#"><i></i>Settings</a></li>																
+							</ul>
+					 </nav>
+		<div class="social_networks">
+				      		
+				      			<a href="#" class="facebook"><i><img src="images/facebook_icon.png" alt="" /></i></a>
+				      			<a href="#" class="twitter"><i><img src="images/tweets.png" alt="" /></i></a>
+				      			<a href="#" class="googleplus"><i><img src="images/google+.png" alt="" /></i></a>
+				    	
+		          </div>
+				  
+				  <!--Map placeholder-->
+	<div id="map">
+	</div>
+<!-- Longitude and lattitude-->	
+<div id="lat"></div>
+
+<div id="long"></div>
+				  
+				  
+				  
+							
+				 
+				<div id="cont_OTg4ODN8NXwxfDJ8MXwzMjA5NjF8MXxGRkZGRkZ8Y3wx"><div id="spa_OTg4ODN8NXwxfDJ8MXwzMjA5NjF8MXxGRkZGRkZ8Y3wx"><a id="a_OTg4ODN8NXwxfDJ8MXwzMjA5NjF8MXxGRkZGRkZ8Y3wx" href="http://www.meteocity.com/maroc/casablanca_v98883/" target="_blank" style="color:#333;text-decoration:none;">Météo Casablanca</a> ©<a href="http://www.meteocity.com">meteocity.com</a></div><script type="text/javascript" src="http://widget.meteocity.com/js/OTg4ODN8NXwxfDJ8MXwzMjA5NjF8MXxGRkZGRkZ8Y3wx"></script></div>
+<!-- SiteSearch Google --> <form action="http://www.votresiteinternet.fr/recherche.html" id="cse-search-box"> <div> <input type="hidden" name="cx" value="partner-pub-7251150894597704:nz8345-k1u9" /> <input type="hidden" name="cof" value="FORID:9" /> <input type="hidden" name="ie" value="ISO-8859-1" /> <input name="sitesearch" value="www.votresiteinternet.fr" type="hidden"> <input type="text" name="q" size="31" /> <input type="submit" name="sa" value="Rechercher" /> </div> <script type="text/javascript" src="http://www.google.com/coop/cse/brand?form=cse-search-box&amp;lang=fr"></script> </form> <!-- SiteSearch Google -->
+<div id="cse-search-results"></div> <script type="text/javascript"> var googleSearchIframeName = "cse-search-results"; var googleSearchFormName = "cse-search-box"; var googleSearchFrameWidth = 795; var googleSearchDomain = "www.google.fr"; var googleSearchPath = "/cse"; </script> <script type="text/javascript" src="http://www.google.com/afsonline/show_afs_search.js"></script> 
+
+						
+            </div>
+			
+		 <div class="copy-right">
+				<p>© 2016 Designed by Saadia Nemmaoui  </p>
+	 	 </div>   
+		
     </body>
 </html>
