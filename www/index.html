@@ -34,7 +34,7 @@
 document.addEventListener("deviceready", onDeviceReady, false);
  
 function onDeviceReady() {
-	alert('debut');
+	//alert('debut');
 var onSuccess = function(position) {
         alert('Latitude: '          + position.coords.latitude          + '\n' +
               'Longitude: '         + position.coords.longitude         + '\n' +
@@ -54,49 +54,6 @@ var onSuccess = function(position) {
     }
 
     navigator.geolocation.getCurrentPosition(onSuccess, onError);
-	
-	var db = window.openDatabase("databasename", "4", "Cordova Demo",'');
-      db.transaction(function(tx) {
-         tx.executeSql('CREATE TABLE IF NOT EXISTS SimpsonFamily (id integer primary key, nom text)');
-      });
-	    
-	alert('bd et table created');
-	
-	db.transaction(function(tx) {
-         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (1,'Homer')");
-         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (2,'Marge')");
-         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (3,'Bart')");
-         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (4,'Lisa')");
-         tx.executeSql("INSERT INTO SimpsonFamily(id, nom) VALUES (5,'Maggie')");
-      });
-	  
-	  alert('insertion reussie');
-	  
-	  db.transaction(function(tx) {
-     tx.executeSql("SELECT * FROM SimpsonFamily", [], function(tx, res) {
-       alert("Nombre d'enregistrements  : " + res.rows.length);
-    });
-   });
-   
-   db.transaction(function(tx){
-   
-   tx.executeSql("SELECT * FROM SimpsonFamily", [], function (tx, results) {
-
-		var len = results.rows.length, i;
-		//$(".rowCount").append(len);
-		//document.write("<table>");
-		for (i = 0; i < len; i++){
-		//$("#TableData").append("<tr><td>"+results.rows.item(i).id+"</td><td>"+results.rows.item(i).nom+"</td></tr>");
-		
-		//document.write("<tr><td>"+results.rows.item(i).id+"</td><td>"+results.rows.item(i).nom+"</td></tr>");
-		
-}
-//document.write("</table>");
-}, null);
-   
-   
-   });
-	
 	
 	
 	}	
